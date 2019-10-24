@@ -32,7 +32,21 @@ class App extends Component {
     })
   }
 
-  deleteTodo = (id) => {
+  deleteTodo = async (id) => {
+    const setting = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(
+        {
+          id,
+        }
+      )
+    }
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, setting
+    );
+    const data = await response.json();
     this.setState({
       todos: [...this.state.todos.filter(todo =>
         todo.id !== id
@@ -40,11 +54,15 @@ class App extends Component {
     })
   }
 
+
+
+
   addTodo = async (title) => {
+
+
     const setting = {
       method: 'POST',
-      header: {
-        'Accept': 'application/json',
+      headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(
@@ -54,12 +72,14 @@ class App extends Component {
         }
       )
     }
-    const response = await fetch(`https://jsonplaceholder.typicode.com/todos?_limit=10`, setting
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos`, setting
     );
     const data = await response.json();
-    this.setState({ todos: [...this.state.todos, data] })
     console.log(data)
+
+    this.setState({ todos: [...this.state.todos, data] })
   }
+
 
   render() {
 
